@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trust Score Calculator</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f3f9ff;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      max-width: 500px;
+      width: 100%;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .result {
+      margin-top: 25px;
+      padding: 15px;
+      background: #e8f5e9;
+      border: 1px solid #c8e6c9;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Vendor Trust Score Calculator</h2>
+
+    <form id="trustForm">
+      <label>Ratings (comma-separated):</label>
+      <input type="text" id="ratings" placeholder="e.g., 5, 4, 3, 5">
+
+      <label>Delivery Rate (%):</label>
+      <input type="number" id="deliveryRate" placeholder="e.g., 85" min="0" max="100">
+
+      <label>Number of Complaints:</label>
+      <input type="number" id="complaints" placeholder="e.g., 2" min="0">
+
+      <label>
+        <input type="checkbox" id="hasFSSAI">
+        Vendor has FSSAI License
+      </label>
+
+      <button type="submit">Calculate Trust Score</button>
+    </form>
+
+    <div class="result" id="result" style="display: none;"></div>
+  </div>
+
+  <script>
+    document.getElementById("trustForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const ratingsStr = document.getElementById("ratings").value;
+      const deliveryRate = parseFloat(document.getElementById("deliveryRate").value) || 0;
+      const complaints = parseInt(document.getElementById("complaints").value) || 0;
+      const hasFSSAI = document.getElementById("hasFSSAI").checked;
+
+      const ratings = ratingsStr
+        .split(',')
+        .map(r => parseFloat(r.trim()))
+        .filter(r => !isNaN(r) && r >= 1 && r <= 5);
+
+      const avgRating = ratings.length > 0
+        ? ratings.reduce((sum, r) => sum + r, 0) / ratings.length
+        : 0;
+
+      let trustScore = (avgRating * 20) +
+                       (hasFSSAI ? 20 : 0) +
+                       (deliveryRate * 0.2) -
+                       (complaints * 5);
+
+      // Clamp score between 0 and 100
+      trustScore = Math.max(0, Math.min(100, trustScore));
+
+      document.getElementById("result").innerHTML = `
+        ⭐ Average Rating: <strong>${avgRating.toFixed(2)}</strong><br>
+        ✅ Trust Score: <strong>${trustScore.toFixed(2)} / 100</strong>
+      `;
+      document.getElementById("result").style.display = "block";
+    });
+  </script>
+</body>
+</html>
