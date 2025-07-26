@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🌟 Rate Your Experience</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .rating-container {
+      background: #ffffffdd;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 450px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+
+    h2 {
+      font-size: 26px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .emoji {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .stars {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .stars input {
+      display: none;
+    }
+
+    .stars label {
+      font-size: 36px;
+      color: #ddd;
+      cursor: pointer;
+      transition: transform 0.3s, color 0.3s;
+    }
+
+    .stars label:hover,
+    .stars label:hover ~ label {
+      color: #ffb400;
+      transform: scale(1.2);
+    }
+
+    .stars input:checked ~ label {
+      color: #ffb400;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-family: inherit;
+      margin-bottom: 20px;
+      resize: vertical;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    textarea::placeholder {
+      color: #999;
+    }
+
+    button {
+      background: #ff8a65;
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      font-size: 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s;
+    }
+
+    button:hover {
+      background: #ff7043;
+      transform: translateY(-2px);
+    }
+
+    .thank-you {
+      display: none;
+      font-size: 18px;
+      color: #444;
+      margin-top: 20px;
+      animation: fadeIn 0.8s ease forwards;
+    }
+  </style>
+</head>
+<body>
+  <div class="rating-container">
+    <div class="emoji">😊✨</div>
+    <h2>How was your experience?</h2>
+    <form id="ratingForm">
+      <div class="stars">
+        <!-- Hidden default input to prevent auto-selection -->
+        <input type="radio" id="star0" name="rating" value="" checked hidden>
+
+        <input type="radio" id="star5" name="rating" value="5">
+        <label for="star5">⭐</label>
+
+        <input type="radio" id="star4" name="rating" value="4">
+        <label for="star4">⭐</label>
+
+        <input type="radio" id="star3" name="rating" value="3">
+        <label for="star3">⭐</label>
+
+        <input type="radio" id="star2" name="rating" value="2">
+        <label for="star2">⭐</label>
+
+        <input type="radio" id="star1" name="rating" value="1">
+        <label for="star1">⭐</label>
+      </div>
+
+      <textarea name="comment" rows="4" placeholder="Any comments you’d like to share? 💬 (optional)"></textarea>
+      <button type="submit">Send Feedback 💌</button>
+    </form>
+    <div class="thank-you" id="thankYouMessage">🎉 Thank you for your feedback!</div>
+  </div>
+
+  <script>
+    const form = document.getElementById("ratingForm");
+    const thankYou = document.getElementById("thankYouMessage");
+
+    // Ensure no stars are pre-selected visually on page load
+    window.addEventListener("DOMContentLoaded", () => {
+      const radios = document.querySelectorAll('input[name="rating"]');
+      radios.forEach(r => r.checked = false);
+      document.getElementById("star0").checked = true;
+    });
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const rating = document.querySelector('input[name="rating"]:checked')?.value || "No rating";
+      const comment = form.comment.value.trim();
+      alert(`⭐ You gave a rating of: ${rating}\n📝 Comment: ${comment || "No comment"}`);
+      thankYou.style.display = "block";
+      form.reset();
+      document.getElementById("star0").checked = true; // Reset stars after submit
+    });
+  </script>
+</body>
+</html>
