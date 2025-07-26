@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rate This Supplier</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: linear-gradient(135deg, #d0eaff 0%, #f3f9ff 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .rating-container {
+      background: #fff;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+      font-size: 24px;
+      color: #1a1a1a;
+    }
+
+    .subtext {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    .stars {
+      direction: rtl;
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      margin-bottom: 15px;
+    }
+
+    .stars input {
+      display: none;
+    }
+
+    .stars label {
+      font-size: 40px;
+      color: #ccc;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .stars input:checked ~ label,
+    .stars label:hover,
+    .stars label:hover ~ label {
+      color: gold;
+    }
+
+    .tap-to-rate {
+      font-size: 14px;
+      color: #999;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+      font-size: 14px;
+      resize: vertical;
+      min-height: 100px;
+      margin-bottom: 20px;
+    }
+
+    textarea::placeholder {
+      color: #aaa;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 30px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .thank-you {
+      margin-top: 20px;
+      color: #4CAF50;
+      font-size: 16px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="rating-container">
+    <h2>Rate This Supplier 🧑‍💼</h2>
+    <p class="subtext">Help us improve by rating your experience with the supplier.</p>
+
+    <form id="ratingForm">
+      <div class="stars">
+        <input type="radio" id="star5" name="rating" value="5">
+        <label for="star5">★</label>
+        <input type="radio" id="star4" name="rating" value="4">
+        <label for="star4">★</label>
+        <input type="radio" id="star3" name="rating" value="3">
+        <label for="star3">★</label>
+        <input type="radio" id="star2" name="rating" value="2">
+        <label for="star2">★</label>
+        <input type="radio" id="star1" name="rating" value="1">
+        <label for="star1">★</label>
+      </div>
+
+      <p class="tap-to-rate">⭐ Tap to rate</p>
+
+      <textarea name="comment" placeholder="Optional comments... 💬"></textarea>
+      <button type="submit">Submit Feedback 📤</button>
+    </form>
+
+    <div class="thank-you" id="thankYouMessage">🎉 Thanks for your feedback!</div>
+  </div>
+
+  <script>
+    document.getElementById("ratingForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const rating = document.querySelector('input[name="rating"]:checked')?.value || "No rating";
+      const comment = this.comment.value.trim();
+      alert(`Rating: ${rating}\nComment: ${comment || "No comment"}`);
+
+      document.getElementById("thankYouMessage").style.display = "block";
+      this.reset();
+    });
+  </script>
+</body>
+</html>
